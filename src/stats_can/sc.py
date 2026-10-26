@@ -229,7 +229,10 @@ def zip_table_to_dataframe(
     ]
     actual_cats = [col for col in possible_cats if col in col_names]
     df[actual_cats] = df[actual_cats].astype("category")
-    df["REF_DATE"] = pd.to_datetime(df["REF_DATE"], format="%Y-%m-%d", errors="coerce")
+    try:
+        df["REF_DATE"] = pd.to_datetime(df["REF_DATE"].astype(str), format="%Y-%m-%d")
+    except:
+        df["REF_DATE"] = pd.to_datetime(df["REF_DATE"].astype(str), format="%Y", errors="coerce")
     return df
 
 
